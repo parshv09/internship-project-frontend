@@ -7,26 +7,37 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { ToastContainer } from 'react-toastify';
 import LandingPage from './pages/LandingPage';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import ChangePassword from './pages/ChangePassword';
+import { LoginContext } from './context/LoginConext';
+import Admin from './pages/Admin';
 
-export const loginContext=createContext()
+
 function App() {
-  const [loginStatus,setLoginStatus]=useState(false)
+  const [loginStatus,setLoginStatus]=useState(() => {
+  const savedStatus = sessionStorage.getItem("loginStatus")
+  return savedStatus === "true" ? true : false
+
+})
+  const [role,setRole]=useState("")
+  useEffect(() => {
+  sessionStorage.setItem("loginStatus", loginStatus)
+}, [loginStatus])
   return (
       <>
-      <loginContext.Provider value={{loginStatus,setLoginStatus}}>
+      <LoginContext.Provider value={{loginStatus,setLoginStatus,role,setRole}}>
         <Routes>
           <Route path='/*' element={<LandingPage />}/>
           <Route path='/login' element={<Login />}/>
-          <Route path='/register' element={<Register />}/>
-          <Route path='/home' element={loginStatus ? <Home /> : <Navigate to="/" />}/>
-          <Route path='/profile' element={loginStatus ? <Profile /> : <Navigate to="/" />}/>
-          <Route path='/Courses' element={loginStatus ? <Courses /> : <Navigate to="/" />}/>
-          <Route path='/change-password' element={loginStatus ? <ChangePassword /> : <Navigate to="/" />}/>
+          <Route path='/register/:courseId' element={ <Register />}/>
+          <Route path='/home' element={loginStatus && role=="student" ? <Home /> : <Navigate to="/" />}/>
+          <Route path='/profile' element={loginStatus  && role=="student" ? <Profile /> : <Navigate to="/" />}/>
+          <Route path='/Courses' element={loginStatus  && role=="student" ? <Courses /> : <Navigate to="/" />}/>
+          <Route path='/change-password' element={loginStatus  && role=="student" ? <ChangePassword /> : <Navigate to="/" />}/>
+          <Route path='/admin' element={loginStatus && role=="admin" ? <Admin /> : <Navigate to="/" />}/>
         </Routes>
 
-        </loginContext.Provider>
+        </LoginContext.Provider>
          {/* <h1>hello from react</h1>
           <Home></Home>
           <Profile></Profile>

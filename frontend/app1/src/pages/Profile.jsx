@@ -31,7 +31,7 @@ useEffect(()=>{
       <Navbar/>
         <div className='container'>
                 <div className='mt-3 mb-3'>
-                    <input type="text" class="form-control" id="inputEmail" value={email}  onChange={e => setEmail(e.target.value)} />
+                    <input type="text" className="form-control" id="inputEmail" value={email}  onChange={e => setEmail(e.target.value)} />
                 </div>
                 <div className='mb-3 d-flex '>
                     <input type="text" className="form-control me-3" id="inputName" value={name}  onChange={e => setName(e.target.value)}/>

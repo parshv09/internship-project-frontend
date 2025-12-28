@@ -1,202 +1,265 @@
-import React from 'react';
-import '../App.css';
-import { Link } from 'react-router';
-
+import React, { useEffect, useState } from "react";
+import "../App.css";
+import "../assets/course.css";
+import "../assets/landing.css";
+import { Link, useNavigate } from "react-router";
+import { getActiveCourses } from "../services/courseServices";
+import java from "../assets/java.png"
+import mern from "../assets/mern.jpeg"
+const images=[]
+let imageIndex=0
 const LandingPage = () => {
-  const courses = [
-    {
-      id: 1,
-      title: "Full Stack Web Development",
-      description: "Master MERN stack with hands-on projects and real-world applications.",
-      duration: "3 Months",
-      videos: 50,
-      fees: "₹ 12,999",
-      badge: "Popular"
-    },
-    {
-      id: 2,
-      title: "Data Science & Analytics",
-      description: "Learn Python, Machine Learning, and Data Visualization techniques.",
-      duration: "4 Months",
-      videos: 65,
-      fees: "₹ 15,999",
-      badge: "New"
-    },
-    {
-      id: 3,
-      title: "Digital Marketing",
-      description: "Master SEO, Social Media Marketing, and Digital Advertising strategies.",
-      duration: "2 Months",
-      videos: 40,
-      fees: "₹ 9,999",
-      badge: "Featured"
-    },
-    {
-      id: 4,
-      title: "Mobile App Development",
-      description: "Build iOS & Android apps with React Native and Firebase.",
-      duration: "3 Months",
-      videos: 45,
-      fees: "₹ 11,999",
-      badge: null
-    },
-    {
-      id: 5,
-      title: "Cloud Computing",
-      description: "AWS, Docker, Kubernetes, and CI/CD pipeline implementation.",
-      duration: "4 Months",
-      videos: 55,
-      fees: "₹ 14,999",
-      badge: null
-    },
-    {
-      id: 6,
-      title: "UI/UX Design",
-      description: "Learn design principles, Figma, and prototyping for modern applications.",
-      duration: "2 Months",
-      videos: 35,
-      fees: "₹ 8,999",
-      badge: null
+  const [courses,setCourses]=useState([])
+  const navigate=useNavigate()
+  useEffect(()=>{getCourses(); images.push(java);images.push(mern)},[])
+
+  const getCourses=async ()=>{
+    const result=await getActiveCourses()
+    if(result.status=="success"){
+      console.log(result.data)
+      setCourses(result.data)
     }
-  ];
+  }
+    const formatDate = (dateString) => {
+    return dateString.split("T")[0].split("-").reverse().join("-");
+  };
 
   return (
     <div className="student-portal">
       {/* Navigation */}
-    {/* Navigation */}
-<nav className="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
-  <div className="container">
-    <a className="navbar-brand fw-bold text-primary fs-4" href="#">
-      <i className="fas fa-book-open me-2"></i>Study Portal
-    </a>
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className="collapse navbar-collapse" id="navbarNav">
-      <ul className="navbar-nav mx-auto d-flex justify-content-center align-items-center">
-        <li className="nav-item mx-3">
-          <a className="nav-link text-dark fw-medium" href="#home">Home</a>
-        </li>
-        <li className="nav-item mx-3">
-          <a className="nav-link text-dark fw-medium" href="#courses">Courses</a>
-        </li>
-        <li className="nav-item mx-3">
-          <a className="nav-link text-dark fw-medium" href="#how">How to Enroll</a>
-        </li>
-      </ul>
-      <div className="d-flex justify-content-end">
-        <Link className="btn btn-primary px-4 py-2 fw-medium" to="/login">
-          <i className="fas fa-sign-in-alt me-2"></i>Student Login
-        </Link>
-      </div>
-    </div>
-  </div>
-</nav>
-
-      {/* Hero Section */}
-      <section id="home" className="hero py-5">
-        <div className="container py-5">
-          <div className="row align-items-center">
-            <div className="col-lg-6">
-              <h1 className="display-5 fw-bold mb-4">
-                Learn. Grow. <span className="text-primary">Succeed.</span>
-              </h1>
-              <p className="lead mb-4 text-secondary">
-                Access quality courses and build skills for your future. Start your learning journey today.
-              </p>
-              <div className="d-flex flex-wrap gap-3">
-                <a href="#courses" className="btn btn-primary btn-lg px-4">
-                  Browse Courses
+      <nav className="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
+        <div className="container">
+          <a className="navbar-brand fw-bold text-primary fs-4" href="#">
+            <i className="fas fa-book-open me-2"></i>Study Portal
+          </a>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav mx-auto d-flex justify-content-center align-items-center">
+              <li className="nav-item mx-3">
+                <a className="nav-link text-dark fw-medium" href="#home">
+                  Home
                 </a>
-              </div>
-            </div>
-            <div className="col-lg-6 mt-5 mt-lg-0">
-              <div className="text-center">
-                <div className="hero-stats p-4 bg-white rounded-3 shadow-sm">
-                  <div className="row">
-                    <div className="col-4">
-                      <div className="stat-item">
-                        <div className="text-primary fw-bold fs-3">50+</div>
-                        <div className="text-muted small">Courses</div>
-                      </div>
-                    </div>
-                    <div className="col-4">
-                      <div className="stat-item">
-                        <div className="text-primary fw-bold fs-3">1000+</div>
-                        <div className="text-muted small">Students</div>
-                      </div>
-                    </div>
-                    <div className="col-4">
-                      <div className="stat-item">
-                        <div className="text-primary fw-bold fs-3">98%</div>
-                        <div className="text-muted small">Satisfaction</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </li>
+              <li className="nav-item mx-3">
+                <a className="nav-link text-dark fw-medium" href="#courses">
+                  Courses
+                </a>
+              </li>
+              <li className="nav-item mx-3">
+                <a className="nav-link text-dark fw-medium" href="#how">
+                  How to Enroll
+                </a>
+              </li>
+            </ul>
+            <div className="d-flex justify-content-end">
+              <Link className="btn btn-primary px-4 py-2 fw-medium" to="/login">
+                Student Login
+              </Link>
             </div>
           </div>
         </div>
-      </section>
+      </nav>
+
+      {/* Hero Section */}
+        <section id="home" className="hero">
+        <div className="container">
+            <div className="row align-items-center">
+                <div className="col-lg-6 hero-content">
+                    <h1 className="hero-title">
+                        Learn. Grow. <span>Succeed.</span>
+                    </h1>
+                    <p className="hero-subtitle">
+                        Access premium courses from industry experts and build the skills needed for tomorrow's careers. Start your learning journey today with our interactive platform.
+                    </p>
+                    <div className="hero-buttons">
+                        <a href="#courses" className="btn btn-primary-custom" style={{color:"white"}}>
+                            <i className="fas fa-graduation-cap me-2"></i> Browse Courses
+                        </a>
+                        
+                    </div>
+                    
+                   
+                    {/* <div className="mt-5">
+                        <p className="text-muted small mb-2">Trusted by leading companies</p>
+                        <div className="d-flex flex-wrap gap-4">
+                            <div className="trust-item">
+                                <i className="fas fa-check-circle text-success me-1"></i>
+                                <span className="small">Expert instructors</span>
+                            </div>
+                            <div className="trust-item">
+                                <i className="fas fa-check-circle text-success me-1"></i>
+                                <span className="small">Certificate upon completion</span>
+                            </div>
+                            <div className="trust-item">
+                                <i className="fas fa-check-circle text-success me-1"></i>
+                                <span className="small">Flexible learning schedule</span>
+                            </div>
+                        </div>
+                    </div> */}
+                </div>
+                
+                <div className="col-lg-6 hero-visual mt-5 mt-lg-0">
+                    <div className="hero-stats-container">
+                        <div className="row">
+                            <div className="col-4">
+                                <div className="stat-item">
+                                    <div className="stat-icon">
+                                        <i className="fas fa-book-open"></i>
+                                    </div>
+                                    <div className="stat-value">80+</div>
+                                    <div className="stat-label">Courses</div>
+                                </div>
+                            </div>
+                            <div className="col-4">
+                                <div className="stat-item">
+                                    <div className="stat-icon">
+                                        <i className="fas fa-users"></i>
+                                    </div>
+                                    <div className="stat-value">2.5K+</div>
+                                    <div className="stat-label">Students</div>
+                                </div>
+                            </div>
+                            <div className="col-4">
+                                <div className="stat-item">
+                                    <div className="stat-icon">
+                                        <i className="fas fa-star"></i>
+                                    </div>
+                                    <div className="stat-value">98%</div>
+                                    <div className="stat-label">Satisfaction</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div className="row mt-4 pt-3 border-top">
+                            <div className="col-6">
+                                <div className="stat-item">
+                                    <div className="stat-icon" style={{background: "linear-gradient(135deg, rgba(247, 37, 133, 0.1), rgba(181, 23, 158, 0.1)); color: var(--accent-color)"}}>
+                                        <i className="fas fa-chart-line"></i>
+                                    </div>
+                                    <div className="stat-value" style={{background: "var(--gradient-accent); -webkit-background-clip: text; background-clip: text"}}>40+</div>
+                                    <div className="stat-label">Instructors</div>
+                                </div>
+                            </div>
+                            <div className="col-6">
+                                <div className="stat-item">
+                                    <div className="stat-icon" style={{background: "linear-gradient(135deg, rgba(45, 206, 137, 0.1), rgba(0, 168, 107, 0.1)); color: #2dce89"}}>
+                                        <i className="fas fa-award"></i>
+                                    </div>
+                                    <div className="stat-value" style={{background: "linear-gradient(135deg, #2dce89 0%, #00a86b 100%); -webkit-background-clip: text; background-clip: text"}}>500+</div>
+                                    <div className="stat-label">Certificates</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                 
+                    <div className="floating-element floating-element-1">
+                        <i className="fas fa-play-circle"></i>
+                        <h6>Video Lessons</h6>
+                        <p>High-quality instructional videos</p>
+                    </div>
+                    
+                    <div className="floating-element floating-element-2">
+                        <i className="fas fa-tasks"></i>
+                        <h6>Practice Exercises</h6>
+                        <p>Hands-on learning</p>
+                    </div>
+                    
+                    <div className="floating-element floating-element-3">
+                        <i className="fas fa-certificate"></i>
+                        <h6>Certification</h6>
+                        <p>Industry-recognized</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
       {/* Courses Section */}
-      <section id="courses" className="courses py-5 bg-light">
-        <div className="container py-5">
-          <div className="text-center mb-5">
-            <h2 className="fw-bold mb-3">Available Courses</h2>
-            <p className="text-muted">Choose from our curated collection of courses</p>
-          </div>
+     <section id="courses" className="courses py-5">
+      <div className="container py-5">
+        {/* Header with improved styling */}
+        <div className="text-center mb-5">
+          <h2 className="section-title mb-3">
+            Available <span className="text-gradient">Courses</span>
+          </h2>
+          <p className="section-subtitle text-muted">
+            Choose from our curated collection of courses
+          </p>
+        </div>
 
-          <div className="row g-4">
-            {courses.map((course) => (
-              <div key={course.id} className="col-md-6 col-lg-4">
-                <div className="course-card card h-100 border-0 shadow-sm">
-                  <div className="card-body p-4">
-                    {course.badge && (
-                      <span className={`badge mb-3 ${course.badge.toLowerCase()}`}>
-                        {course.badge}
-                      </span>
-                    )}
-                    <h5 className="fw-bold mb-3">{course.title}</h5>
-                    <p className="text-secondary mb-4">{course.description}</p>
+        {/* Courses Grid */}
+        <div className="row g-4">
+          {courses.map((course) => {
+            const courseImage = images[imageIndex % images.length];
+            imageIndex++;
+            
+            return (
+              <div key={course.course_id} className="col-md-6 col-lg-4">
+                <div className="course-card">
+                  {/* Image Container */}
+                  <div className="course-image-container">
+                    <img 
+                      src={courseImage} 
+                      alt={course.course_name}
+                      className="course-image"
+                    />
+                    <div className="course-overlay"></div>
+                  </div>
+
+                  {/* Course Content */}
+                  <div className="course-content">
+                    <h5 className="course-name">{course.course_name}</h5>
                     
-                    <div className="course-info mb-4">
-                      <div className="d-flex justify-content-between mb-2">
-                        <span className="text-muted">
-                          <i className="far fa-clock me-1"></i> {course.duration}
-                        </span>
-                        <span className="text-muted">
-                          <i className="fas fa-play-circle me-1"></i> {course.videos} videos
-                        </span>
+                    {/* Course Info */}
+                    <div className="course-info">
+                      <div className="info-item">
+                        <i className="far fa-calendar-alt me-2"></i>
+                        <span className="text-muted">Starts: </span>
+                        <span className="fw-medium">{formatDate(course.start_date)}</span>
                       </div>
                     </div>
 
-                    <div className="d-flex justify-content-between align-items-center">
-                      <h4 className="text-primary mb-0">{course.fees}</h4>
-                      <button 
-                        className="btn btn-primary"
-                        onClick={() => {
-                          // This would redirect to login or enrollment page
-                          window.location.href = "/login?redirect=course";
-                        }}
+                    {/* Price and Button */}
+                    <div className="course-footer">
+                      <div className="course-price">
+                        <h4 className="price-text">Rs. {course.fees || 'Free'}</h4>
+                      </div>
+                      <button
+                        className="enroll-button"
+                        onClick={() => navigate(`/register/${course.course_id}`)}
                       >
+                        <i className="fas fa-arrow-right me-2"></i>
                         Enroll Now
                       </button>
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-5">
-            <a href="/course/all-active-courses" className="btn btn-outline-primary">
-              View All Courses
-            </a>
-          </div>
+            );
+          })}
         </div>
-      </section>
+
+        {/* View All Button */}
+        <div className="text-center mt-5">
+          <a
+            href="/course/all-active-courses"
+            className="view-all-btn"
+          >
+            View All Courses
+            <i className="fas fa-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
+    </section>
 
       {/* How to Enroll */}
       <section id="how" className="enroll-steps py-5">
@@ -238,7 +301,8 @@ const LandingPage = () => {
                 </div>
                 <h5 className="fw-bold mb-3">Start Learning</h5>
                 <p className="text-muted">
-                  Access course videos and materials immediately after enrollment
+                  Access course videos and materials immediately after
+                  enrollment
                 </p>
               </div>
             </div>
@@ -258,7 +322,9 @@ const LandingPage = () => {
                 </div>
                 <div>
                   <h5 className="fw-bold">Video Lessons</h5>
-                  <p className="text-muted mb-0">High-quality video lectures with lifetime access</p>
+                  <p className="text-muted mb-0">
+                    High-quality video lectures with lifetime access
+                  </p>
                 </div>
               </div>
               <div className="benefit-item d-flex mb-3">
@@ -267,7 +333,9 @@ const LandingPage = () => {
                 </div>
                 <div>
                   <h5 className="fw-bold">Certificates</h5>
-                  <p className="text-muted mb-0">Get certified upon course completion</p>
+                  <p className="text-muted mb-0">
+                    Get certified upon course completion
+                  </p>
                 </div>
               </div>
               <div className="benefit-item d-flex">
@@ -276,7 +344,9 @@ const LandingPage = () => {
                 </div>
                 <div>
                   <h5 className="fw-bold">Learn Anywhere</h5>
-                  <p className="text-muted mb-0">Access courses from any device, anytime</p>
+                  <p className="text-muted mb-0">
+                    Access courses from any device, anytime
+                  </p>
                 </div>
               </div>
             </div>
@@ -306,23 +376,41 @@ const LandingPage = () => {
                 <i className="fas fa-book-open me-2"></i>Study Portal
               </h5>
               <p className="text-light">
-                A platform dedicated to student learning and growth through quality online courses.
+                A platform dedicated to student learning and growth through
+                quality online courses.
               </p>
             </div>
             <div className="col-lg-2 col-md-6 mb-4 mb-lg-0">
               <h6 className="fw-bold mb-4">For Students</h6>
               <ul className="list-unstyled">
                 <li className="mb-2">
-                  <Link to="/login" className="text-light text-decoration-none">Login</Link>
+                  <Link to="/login" className="text-light text-decoration-none">
+                    Login
+                  </Link>
                 </li>
                 <li className="mb-2">
-                  <a href="/course/all-active-courses" className="text-light text-decoration-none">All Courses</a>
+                  <a
+                    href="/course/all-active-courses"
+                    className="text-light text-decoration-none"
+                  >
+                    All Courses
+                  </a>
                 </li>
                 <li className="mb-2">
-                  <a href="/student/my-courses" className="text-light text-decoration-none">My Courses</a>
+                  <a
+                    href="/student/my-courses"
+                    className="text-light text-decoration-none"
+                  >
+                    My Courses
+                  </a>
                 </li>
                 <li>
-                  <a href="/student/change-password" className="text-light text-decoration-none">Account</a>
+                  <a
+                    href="/student/change-password"
+                    className="text-light text-decoration-none"
+                  >
+                    Account
+                  </a>
                 </li>
               </ul>
             </div>
@@ -368,6 +456,5 @@ const LandingPage = () => {
     </div>
   );
 };
-
 
 export default LandingPage;

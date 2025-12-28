@@ -9,9 +9,10 @@ export async function loginUser(email,password){
     return result.data;
 }
 
-export async function registerUser(name,email,mobile){
+export async function registerUser(courseId,name,email,mobileNo){
+   
     const URL=config.URL+"/register-to-course"
-    const body={courseId:101,name,email,mobile}
+    const body={courseId,name,email,mobileNo}
     const response=await axios.post(URL,body)
     return response.data;
 }
