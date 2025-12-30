@@ -9,20 +9,35 @@ import { ToastContainer } from 'react-toastify';
 import LandingPage from './pages/LandingPage';
 import { createContext, useEffect, useState } from 'react';
 import ChangePassword from './pages/ChangePassword';
-import { LoginContext } from './context/LoginConext';
-import Admin from './pages/Admin';
 
+import Admin from './pages/admin/Admin';
+import Videos from './pages/Videos';
+import GetAllVideos from './pages/admin/GetAllVideos';
+import AdminCourses from './pages/admin/AdminCourses';
+import AddCourse from './pages/admin/AddCourse';
+import EditCourse from './pages/admin/EditCourse';
 
+export const LoginContext = createContext(null)
 function App() {
-  const [loginStatus,setLoginStatus]=useState(() => {
-  const savedStatus = sessionStorage.getItem("loginStatus")
-  return savedStatus === "true" ? true : false
+     
+      const [loginStatus,setLoginStatus]=useState(() => {
+      const savedStatus = sessionStorage.getItem("loginStatus")
+      return savedStatus === "true" ? true : false
 
-})
-  const [role,setRole]=useState("")
-  useEffect(() => {
-  sessionStorage.setItem("loginStatus", loginStatus)
-}, [loginStatus])
+    })
+      const [role,setRole]=useState(()=>{
+        return sessionStorage.getItem("role") || ""
+      })
+      useEffect(() => {
+        sessionStorage.setItem("loginStatus", loginStatus)
+      }, [loginStatus])
+      
+      useEffect(() => {
+      if (role) {
+        sessionStorage.setItem("role", role)
+      }
+    }, [role])
+
   return (
       <>
       <LoginContext.Provider value={{loginStatus,setLoginStatus,role,setRole}}>
@@ -33,8 +48,13 @@ function App() {
           <Route path='/home' element={loginStatus && role=="student" ? <Home /> : <Navigate to="/" />}/>
           <Route path='/profile' element={loginStatus  && role=="student" ? <Profile /> : <Navigate to="/" />}/>
           <Route path='/Courses' element={loginStatus  && role=="student" ? <Courses /> : <Navigate to="/" />}/>
+          <Route path='/videos/:courseId' element={loginStatus  && role=="student" ? <Videos /> : <Navigate to="/" />}/>
           <Route path='/change-password' element={loginStatus  && role=="student" ? <ChangePassword /> : <Navigate to="/" />}/>
           <Route path='/admin' element={loginStatus && role=="admin" ? <Admin /> : <Navigate to="/" />}/>
+          <Route path='/get-all-videos' element={loginStatus && role=="admin" ? <GetAllVideos /> : <Navigate to="/" />}/>
+          <Route path='/get-admin-courses' element={loginStatus && role=="admin" ? <AdminCourses /> : <Navigate to="/" />}/>
+          <Route path='/add-courses' element={loginStatus && role=="admin" ? <AddCourse /> : <Navigate to="/" />}/>
+          <Route path='/update-courses/:id' element={loginStatus && role=="admin" ? <EditCourse /> : <Navigate to="/" />}/>
         </Routes>
 
         </LoginContext.Provider>

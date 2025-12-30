@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
-import { getActiveCourses } from '../services/courseServices'
+import { getActiveCourses } from '../../services/courseServices'
 import { useNavigate } from 'react-router'
-import { LoginContext } from "../App";
-import img from "../helper/images"
+import { LoginContext } from "../../App";
+import img from "../../helper/images"
+import AdminNavbar from '../../components/AdminNavbar';
 
 let imageIndex=0
-function Home() {
+
+function Admin() {
   const {loginStatus,setLoginStatus,role}=useContext(LoginContext)
   const [images,setImages]=useState([])
   const [courses,setCourses]=useState([])
@@ -30,9 +31,9 @@ function Home() {
   return (
    
     <div >
-       <Navbar />
+       <AdminNavbar />
 
-      <div className="container py-5">
+      <div className="container py-4">
         {/* Header with improved styling */}
         <div className="text-center mb-5">
           <h2 className="section-title mb-3">
@@ -44,7 +45,7 @@ function Home() {
         </div>
 
         {/* Courses Grid */}
-        <div className="row gy-6 ">
+        <div className="row g-2 ">
           {courses.map((course) => {
             const courseImage = images[imageIndex % images.length];
             imageIndex++;
@@ -76,16 +77,16 @@ function Home() {
                     </div>
 
                     {/* Price and Button */}
-                    <div className="course-footer">
-                      <div className="course-price">
+                    <div style={{justifyContent:"center" }}>
+                      {/* <div className="course-price">
                         <h4 className="price-text">Rs. {course.fees || 'Free'}</h4>
-                      </div>
+                      </div> */}
                       <button
-                        className="enroll-button"
+                        className="enroll-button btn-md" style={{textAlign:"center"}}
                         onClick={() => navigate(`/register/${course.course_id}`)}
                       >
-                        <i className="fas fa-arrow-right me-2"></i>
-                        Enroll Now
+                        
+                        View more
                       </button>
                     </div>
                   </div>
@@ -95,19 +96,10 @@ function Home() {
           })}
         </div>
 
-        {/* View All Button */}
-        <div className="text-center mt-5">
-          <a
-            href="/course/all-active-courses"
-            className="view-all-btn"
-          >
-            View All Courses
-            <i className="fas fa-arrow-right ms-2"></i>
-          </a>
-        </div>
+
       </div>
     </div>
   )
 }
 
-export default Home
+export default Admin

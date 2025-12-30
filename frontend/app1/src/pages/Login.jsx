@@ -4,7 +4,7 @@ import "../App.css";
 import { loginUser } from "../services/userServices";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
-import { LoginContext } from "../context/LoginConext";
+import { LoginContext } from "../App";
 
 function Login() {
 
@@ -45,26 +45,31 @@ function Login() {
   };
   return (
     <div className="d-flex align-items-center justify-content-center vh-100 my-5 pt-5">
-      <div className="border p-4 rounded w-25 shadow bg-white">
+      <div className="border p-4 rounded w-25 shadow bg-white ">
+         <div className="icon-circle-lg bg-primary-light mb-3 mx-auto">
+             <i className="fa-solid fa-user" style={{color:"##3a0ca3"}}></i>
+            </div>
         <h3 className="text-center mb-4">Login</h3>
 
-        <div className="mb-3">
-          <label className="form-label">Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Enter Email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-          <div className="invalid-feedback">
-            Please enter a valid email address.
+          <div className="mb-4">
+            <div className="input-group">
+              <span className="input-group-text bg-light border-end-0">
+                <i className="fas fa-envelope text-primary"></i>
+              </span>
+              <input
+                type="email"
+                className="form-control border-start-0 ps-3"
+                placeholder="Enter Your Email Address"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
 
         <div className="mb-3">
-          <label className="form-label">Password</label>
+           <div className="input-group">
+              <span className="input-group-text bg-light border-end-0">
+                <i className="bi bi-lock-fill" style={{color:"blue"}}></i>
+              </span>
           <input
             type="password"
             className="form-control"
@@ -73,19 +78,14 @@ function Login() {
             setPassword(e.target.value);
             }}
           />
-          <div className="invalid-feedback">
-            Password must be at least 6 characters long.
-          </div>
+         </div>
         </div>
 
         <button className="btn btn-primary w-100" onClick={signin}>
           Login
         </button>
 
-        <div className="d-flex justify-content-center align-items-center mt-3">
-          <span className="me-2">Don't have an account?</span>
-          <a href="/register">Register here</a>
-        </div>
+
       </div>
     </div>
   );
