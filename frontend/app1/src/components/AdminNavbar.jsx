@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../assets/adminNav.css"; // keep your custom styles here
+import { LoginContext } from "../App";
 
 function AdminNavbar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const adminName = "Admin"; // you can replace with dynamic data later
-
+  const { setLoginStatus ,setRole} = useContext(LoginContext);
   const logout = () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("role");
+                    sessionStorage.clear()
+                     setLoginStatus(false)
+                     setRole("")
+
     navigate("/login");
   };
 
@@ -39,7 +42,7 @@ function AdminNavbar() {
       <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
         <li className="nav-item mx-2">
           <Link 
-            className="nav-link elegant-nav-link"
+            className="nav-link dropdown-toggle elegant-nav-link"
             to="/admin"
           >
             <i className="bi bi-house-door me-2"></i>
@@ -49,7 +52,7 @@ function AdminNavbar() {
         </li>
       
                 <li className="nav-item dropdown mx-2">
-          <span className="nav-link  elegant-nav-link" role="button" data-bs-toggle="dropdown">
+          <span className="nav-link dropdown-toggle  elegant-nav-link" role="button" data-bs-toggle="dropdown">
             Courses
           </span>
           <ul className="dropdown-menu">
@@ -89,7 +92,7 @@ function AdminNavbar() {
           </span>
           <ul className="dropdown-menu">
             <li>
-              <span className="dropdown-item disabled">Get All Students</span>
+              <span className="dropdown-item disabled" onClick={()=>{navigate("/getStudents")}}>Get All Students</span>
             </li>
           </ul>
         </li>
@@ -152,14 +155,14 @@ function AdminNavbar() {
               <div className="dropdown-body">
                 <Link
                   className="dropdown-item elegant-dropdown-item"
-                  to="/profile"
+                  to="/change-password"
                   onClick={() => setOpen(false)}
                 >
                   <div className="item-icon">
                     <i className="bi bi-person"></i>
                   </div>
                   <div className="item-content">
-                    <div className="item-title">My Profile</div>
+                    <div className="item-title">Change Password</div>
                   </div>
                 </Link>
 

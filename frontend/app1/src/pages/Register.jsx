@@ -11,9 +11,13 @@ function Register() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const {loginStatus,setLoginStatus,role}=useContext(LoginContext)
+  const [lstate,setlstate]=useState(false)
   const navigate = useNavigate();
   const [courses,setCourses]=useState([])
-  useEffect(()=>{getCourse()},[])
+  useEffect(()=>{getCourse()
+    console.log(loginStatus)
+    setlstate(loginStatus)
+  },[])
 
   const getCourse=async ()=>{
     const result=await getCourseDetails(courseId)
@@ -40,7 +44,8 @@ function Register() {
     console.log(result);
     if (result.status == "success") {
       toast.success("registration successful");
-      if(loginStatus){
+      // navigate('/login')
+      if(lstate){
         navigate('/course')
       }else{
          navigate("/login");

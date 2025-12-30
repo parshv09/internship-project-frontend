@@ -87,7 +87,6 @@
 .form-control {
   border-radius: 0 10px 10px 0 !important;
   border: 2px solid #dee2e6;
-  border-left: none;
   padding: 12px 15px;
 }
 
@@ -127,4 +126,7 @@
   .registration-card .card-body {
     padding: 30px 20px !important;
   }
+}
+select.form-control:not([size]):not([multiple]) {
+    height: calc(4.25rem + -22px);
 }

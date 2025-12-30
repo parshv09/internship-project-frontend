@@ -1,13 +1,16 @@
-import { use, useEffect, useState } from 'react'
+import { use, useContext, useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import { getUser } from '../services/userServices'
 import Register from './Register';
 import { useNavigate } from 'react-router';
+import { LoginContext } from '../App';
+import AdminNavbar from '../components/AdminNavbar';
 function Profile() {
   const [name,setName]=useState("")
   const [email,setEmail]=useState("")
   const [mobile ,setMobile]=useState("")
   const navigate=useNavigate()
+  const {role}=useContext(LoginContext)
 useEffect(()=>{
   console.log("profile loaded")
   getUserProfile()
@@ -27,8 +30,11 @@ useEffect(()=>{
     navigate("/change-password")
   }
   return (
-    <div>
-      <Navbar/>
+    <div>{role=="admin" && <AdminNavbar />
+
+    }
+    {role=="student" && <Navbar/>}
+      
         <div className='container'>
                 <div className='mt-3 mb-3'>
                     <input type="text" className="form-control" id="inputEmail" value={email}  onChange={e => setEmail(e.target.value)} />

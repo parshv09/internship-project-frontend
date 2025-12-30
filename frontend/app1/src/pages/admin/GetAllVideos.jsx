@@ -1,18 +1,33 @@
 import React, { startTransition, useEffect, useState } from 'react'
 import AdminNavbar from '../../components/AdminNavbar'
-import { getAllCourses, getVideoDetails } from '../../services/adminCourseServices' // adjust path
+import { deleteCourse, deleteVideo, getAllCourses, getVideoDetails } from '../../services/adminCourseServices' // adjust path
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router'
 
 const GetAllVideos = () => {
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true)
+  const [courses ,setCourses]=useState([])
+  const [courseId,setCourseId]=useState(null)
+  const navigate=useNavigate()
   // Fetch videos when component loads
-  useEffect(() => {
-    fetchVideos()
-  }, [])
+  useEffect(()=>{
 
-const fetchVideos=async ()=>{
+   
+    loadCourse()
+  },[])
+  useEffect(() => {
+   if (courseId !== null) {
+    setLoading(true)
+    setVideos([])
+    fetchVideos(courseId)
+  }
+    
+  },[courseId])
+
+const fetchVideos=async (course_id)=>{
   const token =sessionStorage.getItem('token')
-  const result=await getVideoDetails(token,104)
+  const result=await getVideoDetails(token,course_id)
   console.log(result)
   if(result.status=="success"){
     setVideos(result.data)
@@ -27,11 +42,36 @@ const loadCourse=async ()=>{
   const token= sessionStorage.getItem("token")
   const startDate="2025-01-01"
   const endDate="2026-01-01"
-  const result=getAllCourses(token,startDate,endDate)
+  const result= await getAllCourses(token,startDate,endDate)
   if(result.status=="success"){
-    
+      console.log(result.data)
+      setCourses(result.data)
+      console.log("cor::",courses)
+      if(result.data.length > 0){
+        setCourseId(Number(result.data[0].course_id))
+      } else {
+      setLoading(false) // ✅ no courses → stop loading
+    }
+  } else {
+    setLoading(false)
   }
-}
+  }
+const onDelete = async (videoId) => {
+      try {
+        const token = sessionStorage.getItem("token");
+        const result = await deleteVideo(token, videoId);
+  
+        if (result.status === "success") {
+          toast.success("Video deleted");
+          loadCourse();
+        } else {
+          toast.error(result.error || "Delete failed");
+        }
+      } catch (err) {
+        toast.error("Server error while deleting video");
+      }
+    };
+
 
   // Filter videos by course_id (optional)
   // const filteredVideos =
@@ -48,15 +88,13 @@ const loadCourse=async ()=>{
       <AdminNavbar />
     <div className='container mt-4'>
       {/* Filter */}
-      <select data-mdb-select-init>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        <option value="4">Four</option>
-        <option value="5">Five</option>
-        <option value="6">Six</option>
-        <option value="7">Seven</option>
-        <option value="8">Eight</option>
+       <label className="form-label ">Filter by Course</label>
+      <select value={courseId} className='form-control' onChange={(e)=>{setCourseId(Number(e.target.value))}}>
+        <option value="" >select the course</option>
+        {courses.map((c)=>(
+          <option key={c.course_id} value={c.course_id} >{c.course_name}</option>
+        ))}
+      
       </select>
 
       {/* Table */}
@@ -70,6 +108,7 @@ const loadCourse=async ()=>{
               <th>Description</th>
               <th>YouTube</th>
               <th>Added At</th>
+                 <th>Action</th>
             </tr>
           </thead>
 
@@ -95,6 +134,21 @@ const loadCourse=async ()=>{
                     </a>
                   </td>
                   <td>{new Date(video.added_at).toLocaleDateString()}</td>
+                  <td className='d-flex'>
+                  <button
+                    className="btn btn-warning btn-sm me-2 mr-3"
+                    onClick={() => navigate(`/edit-video/${video.video_id}`)}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => onDelete(video.video_id)}
+                  >
+                    Delete
+                  </button>
+                </td>
                 </tr>
               ))
             )}

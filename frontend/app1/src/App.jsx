@@ -16,6 +16,10 @@ import GetAllVideos from './pages/admin/GetAllVideos';
 import AdminCourses from './pages/admin/AdminCourses';
 import AddCourse from './pages/admin/AddCourse';
 import EditCourse from './pages/admin/EditCourse';
+import AddNewVideo from './pages/admin/AddNewVideo';
+import EditVideo from './pages/admin/EditVideo';
+import AdminStudents from './pages/admin/AdminStudents';
+// import AddNewVideo from './pages/admin/AddNewVideo';
 
 export const LoginContext = createContext(null)
 function App() {
@@ -46,15 +50,18 @@ function App() {
           <Route path='/login' element={<Login />}/>
           <Route path='/register/:courseId' element={ <Register />}/>
           <Route path='/home' element={loginStatus && role=="student" ? <Home /> : <Navigate to="/" />}/>
-          <Route path='/profile' element={loginStatus  && role=="student" ? <Profile /> : <Navigate to="/" />}/>
+          <Route path='/profile' element={loginStatus  && role=="student" || role=="admin" ? <Profile /> : <Navigate to="/" />}/>
           <Route path='/Courses' element={loginStatus  && role=="student" ? <Courses /> : <Navigate to="/" />}/>
           <Route path='/videos/:courseId' element={loginStatus  && role=="student" ? <Videos /> : <Navigate to="/" />}/>
-          <Route path='/change-password' element={loginStatus  && role=="student" ? <ChangePassword /> : <Navigate to="/" />}/>
+          <Route path='/change-password' element={loginStatus  && role=="student" || role=="admin" ? <ChangePassword /> : <Navigate to="/" />}/>
           <Route path='/admin' element={loginStatus && role=="admin" ? <Admin /> : <Navigate to="/" />}/>
           <Route path='/get-all-videos' element={loginStatus && role=="admin" ? <GetAllVideos /> : <Navigate to="/" />}/>
           <Route path='/get-admin-courses' element={loginStatus && role=="admin" ? <AdminCourses /> : <Navigate to="/" />}/>
           <Route path='/add-courses' element={loginStatus && role=="admin" ? <AddCourse /> : <Navigate to="/" />}/>
           <Route path='/update-courses/:id' element={loginStatus && role=="admin" ? <EditCourse /> : <Navigate to="/" />}/>
+          <Route path='/add-new-video' element={loginStatus && role=="admin" ? <AddNewVideo /> : <Navigate to="/" />}/>
+          <Route path='/edit-video/:videoId' element={loginStatus && role=="admin" ? <EditVideo /> : <Navigate to="/" />}/>
+          <Route path='/getStudents' element={loginStatus && role=="admin" ? <AdminStudents /> : <Navigate to="/" />}/>
         </Routes>
 
         </LoginContext.Provider>
