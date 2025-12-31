@@ -44,10 +44,10 @@ useEffect(()=>{
                     <input type="tel" className="form-control ms-3" id="inputMobile" value={mobile} onChange={e => setMobile(e.target.value)} />
                 </div>  
 
-                <div>
+                {/* <div>
                   <label>Do you want to change your password? </label><label>... </label>
                     <button className="btn btn-success btn-sm" onClick={resetPassword}>Change Password</button>
-                </div>
+                </div> */}
             </div>
     </div>
   )

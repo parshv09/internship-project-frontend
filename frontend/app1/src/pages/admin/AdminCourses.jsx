@@ -87,9 +87,10 @@ function AdminCourses() {
                 <td>{String(c.start_date).slice(0, 10)}</td>
                 <td>{String(c.end_date).slice(0, 10)}</td>
                 <td>{c.video_expiry_days}</td>
-                <td>
+                <td className="d-flex">
+                  
                   <button
-                    className="btn btn-warning btn-sm me-2"
+                    className="btn btn-warning btn-sm me-2 mr-3"
                     onClick={() => navigate(`/update-courses/${c.course_id}`)}
                   >
                     Edit

@@ -41,7 +41,7 @@ const fetchVideos=async (course_id)=>{
 const loadCourse=async ()=>{
   const token= sessionStorage.getItem("token")
   const startDate="2025-01-01"
-  const endDate="2026-01-01"
+  const endDate="2040-01-01"
   const result= await getAllCourses(token,startDate,endDate)
   if(result.status=="success"){
       console.log(result.data)

@@ -30,7 +30,7 @@ export async function getCoursesWithVideos(token,courseId) {
             token: token   
         },
         params: {
-            course_id: courseId
+            course_id : courseId
         }
     })
 

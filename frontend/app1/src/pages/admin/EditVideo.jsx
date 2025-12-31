@@ -41,7 +41,7 @@ const loadVideo = async () => {
 const loadCourses = async () => {
   try {
      const startDate="2025-01-01"
-     const endDate="2026-01-01"
+     const endDate="2040-01-01"
      const result= await getAllCourses(token,startDate,endDate)
 
     console.log("Courses API result:", result) // 🔍 DEBUG

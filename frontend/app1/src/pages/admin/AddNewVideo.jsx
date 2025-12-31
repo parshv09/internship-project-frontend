@@ -20,7 +20,7 @@ function AddNewVideo() {
 
     const loadCourses=async ()=>{
         const token =sessionStorage.getItem("token")
-        const result=await getAllCourses(token,"2025-01-01","2026-01-01")
+        const result=await getAllCourses(token,"2025-01-01","2040-01-01")
         if(result.status=="success"){
             setCourses(result.data)
             console.log(result.data)
